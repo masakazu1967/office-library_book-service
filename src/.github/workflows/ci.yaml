@@ -1,0 +1,45 @@
+name: ci
+
+on: [push]
+
+jobs:
+  build:
+    name: all
+    runs-on: ubuntu-latest
+    steps:
+      - name: setup
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.14
+        id: go
+      - name: checkout
+        uses: actions/checkout@v1
+      - name: cache
+        uses: actions/cache@v1
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+      - name: install lint
+        run: curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b $(go env GOPATH)/bin v1.18.0
+      - name: lint
+        run: golangci-lint run
+      - name: test
+        run: go test ./... -v
+      - name: build
+        env:
+          goos: "linux"
+          goarch: "amd64"
+        run: |
+          mkdir dist
+          GOODS=$goos GOARCH=$goarch go build -v -o dist/book_service-$goos-$goarch .
+      - name: upload artifact
+        uses: actions/upload-artifact@v1
+        env:
+          goos: "linux"
+          goarch: "amd64"
+        with:
+          name: binary
+          path: dist/book_service-$goos-$goarch
+

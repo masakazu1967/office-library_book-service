@@ -1,6 +1,9 @@
 package database
 
-import domain "local.package/domain"
+import (
+	"log"
+	"local.package/domain"
+)
 
 // WriterRepository 著者リポジトリ
 type WriterRepository struct {
@@ -9,7 +12,7 @@ type WriterRepository struct {
 
 // Store 著者をリポジトリに登録する
 func (repo *WriterRepository) Store(writer domain.Writer) (id int, err error) {
-	result, err := repo.Execute("INSERT INTO writers (family_name, given_name) VALUES(?, ?)", writer.FamilyName, writer.GivenName)
+	result, err := repo.Execute("INSERT INTO writers (family_name, given_name) VALUES($1, $2)", writer.FamilyName, writer.GivenName)
 	if err != nil {
 		return
 	}
@@ -23,7 +26,8 @@ func (repo *WriterRepository) Store(writer domain.Writer) (id int, err error) {
 
 // FindByID IDから著者情報を取得する
 func (repo *WriterRepository) FindByID(identifier int) (writer domain.Writer, err error) {
-	row, err := repo.Query("SELECT id, family_name, given_name FROM writers WHERE id = ?", identifier)
+	log.Printf("INFO  : WriterRepository.FIndByID(%d)", identifier)
+	row, err := repo.Query("SELECT id, family_name, given_name FROM writers WHERE id = $1", identifier)
 	defer row.Close()
 	if err != nil {
 		return

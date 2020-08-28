@@ -1,6 +1,9 @@
 package usecase
 
-import "local.package/domain"
+import (
+	"log"
+	"local.package/domain"
+)
 
 // WriterInteractor 著者ユースケース
 type WriterInteractor struct {
@@ -25,6 +28,7 @@ func (interactor *WriterInteractor) Writers() (writers domain.Writers, err error
 
 // WriterByID IDの著者の情報を取得する
 func (interactor *WriterInteractor) WriterByID(identifier int) (writer domain.Writer, err error) {
+	log.Printf("INFO  : WriterInteractor.WriterByID(%d)", identifier)
 	writer, err = interactor.WriterRepository.FindByID(identifier)
 	return
 }

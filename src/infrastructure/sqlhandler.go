@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"github.com/kelseyhightower/envconfig"
 	"local.package/interfaces/database"
+		_ "github.com/lib/pq"
 )
 
 // Config SQL接続設定情報
@@ -24,11 +25,11 @@ func NewSQLHandler() *SQLHandler {
 	err := envconfig.Process("", &config)
 	if err != nil {
 		log.Fatalf("FATAL : Failed to process env: %s", err.Error())
-		panic(err.Error)
 	}
+	log.Printf("INFO  : Database Dialect:%s ConnectionString:%s", config.DbDialect, config.DbConnectionString)
 	conn, err := sql.Open(config.DbDialect, config.DbConnectionString)
 	if err != nil {
-		panic(err.Error)
+		log.Fatalf("FATAL : %s", err.Error())
 	}
 	sqlHandler := new(SQLHandler)
 	sqlHandler.Conn = conn
