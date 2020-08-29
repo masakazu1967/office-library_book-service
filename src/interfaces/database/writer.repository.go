@@ -2,7 +2,7 @@ package database
 
 import (
 	"log"
-	"local.package/domain"
+	"github.com/masakazu1967/office-library_book-service/domain"
 )
 
 // WriterRepository 著者リポジトリ

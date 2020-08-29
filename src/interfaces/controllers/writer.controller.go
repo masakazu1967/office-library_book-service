@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"local.package/domain"
-	"local.package/interfaces/database"
-	"local.package/usecase"
+	"github.com/masakazu1967/office-library_book-service/domain"
+	"github.com/masakazu1967/office-library_book-service/interfaces/database"
+	"github.com/masakazu1967/office-library_book-service/usecase"
 	"strconv"
 )
 

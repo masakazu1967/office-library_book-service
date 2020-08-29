@@ -1,7 +1,7 @@
 package main
 
 import (
-  "local.package/infrastructure"
+  "github.com/masakazu1967/office-library_book-service/infrastructure"
 )
 
 func main() {

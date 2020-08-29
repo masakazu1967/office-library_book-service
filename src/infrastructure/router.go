@@ -2,7 +2,7 @@ package infrastructure
 
 import (
 	"github.com/gin-gonic/gin"
-	"local.package/interfaces/controllers"
+	"github.com/masakazu1967/office-library_book-service/interfaces/controllers"
 )
 
 // Router 経路

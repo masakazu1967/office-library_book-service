@@ -4,7 +4,7 @@ import (
 	"log"
 	"database/sql"
 	"github.com/kelseyhightower/envconfig"
-	"local.package/interfaces/database"
+	"github.com/masakazu1967/office-library_book-service/interfaces/database"
 		_ "github.com/lib/pq"
 )
 
