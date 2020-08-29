@@ -1,9 +1,12 @@
 package main
 
 import (
-	"local.package/infrastructure"
+  "local.package/infrastructure"
 )
 
 func main() {
-	infrastructure.Router.Run()
+	err := infrastructure.Router.Run()
+	if err != nil {
+		return
+	}
 }
