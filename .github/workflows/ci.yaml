@@ -53,7 +53,7 @@ jobs:
         with:
           name: binary
       - name: build container image
-        run: docker build -t book-service:${{ github.sha }}
+        run: docker build -t book-service:${{ github.sha }} .
       - name: change domain
         run: docker tag book-service:${{ github.sha }} docker.pkg.github.com/${{ github.repository }}/book-service:${{ github.sha }}
       - name: docker login
