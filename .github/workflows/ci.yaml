@@ -21,10 +21,6 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
-      - name: install dependencies
-        run: |
-          cd ~/work/office-library_book-service/office-library_book-service
-          go mod download
       - name: install lint
         run: curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b $(go env GOPATH)/bin v1.30.0
       - name: lint
@@ -46,4 +42,3 @@ jobs:
         with:
           name: binary
           path: dist/book_service-$goos-$goarch
-
