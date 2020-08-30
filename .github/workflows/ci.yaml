@@ -2,6 +2,9 @@ name: ci
 
 on: [push]
 
+env:
+  goos: "linux"
+  goarch: "amd64"
 jobs:
   build:
     name: all
@@ -28,18 +31,31 @@ jobs:
       - name: test
         run: go test ./... -v
       - name: build
-        env:
-          goos: "linux"
-          goarch: "amd64"
         run: |
           mkdir dist
           GOODS=$goos GOARCH=$goarch go build -v -o dist/book_service-$goos-$goarch .
           ls -l dist
       - name: upload artifact
-        env:
-          goos: "linux"
-          goarch: "amd64"
         uses: actions/upload-artifact@v1
         with:
           name: binary
           path: dist/book_service-${{ env.goos }}-${{ env.goarch }}
+
+  build_image:
+    name: build image
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v1
+      - name: download artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: binary
+      - name: build container image
+        run: docker build -t book-service:${{ env.GITHUB_SHA }}
+      - name: change domain
+        run: docker tag book-service:${{ env.GITHUB_SHA }} docker.pkg.github.com/${{ env.GITHUB_REPOSITORY }}/book-service:${{ env.GITHUB_SHA }}
+      - name: docker login
+        run: docker login docker.pkg.github.com -u ${{ env.GITHUB_ACTOR }} -p ${{ secrets.DOCKER_REGISTRY_WRITE }}
+      - name: push registry
+        run: docker push docker.pkg.github.com/${{ env.GITHUB_REPOSITORY }}/book-service:${{ env.GITHUB_SHA }}
