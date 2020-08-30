@@ -53,10 +53,10 @@ jobs:
         with:
           name: binary
       - name: build container image
-        run: docker build -t book-service:${{ env.GITHUB_SHA }}
+        run: docker build -t book-service:${{ github.sha }}
       - name: change domain
-        run: docker tag book-service:${{ env.GITHUB_SHA }} docker.pkg.github.com/${{ env.GITHUB_REPOSITORY }}/book-service:${{ env.GITHUB_SHA }}
+        run: docker tag book-service:${{ github.sha }} docker.pkg.github.com/${{ github.repository }}/book-service:${{ github.sha }}
       - name: docker login
-        run: docker login docker.pkg.github.com -u ${{ env.GITHUB_ACTOR }} -p ${{ secrets.DOCKER_REGISTRY_WRITE }}
+        run: docker login docker.pkg.github.com -u ${{ github.repository_owner }} -p ${{ secrets.DOCKER_REGISTRY_WRITE }}
       - name: push registry
-        run: docker push docker.pkg.github.com/${{ env.GITHUB_REPOSITORY }}/book-service:${{ env.GITHUB_SHA }}
+        run: docker push docker.pkg.github.com/${{ github.repository }}/book-service:${{ github.sha }}
