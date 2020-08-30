@@ -38,7 +38,7 @@ jobs:
       - name: upload artifact
         uses: actions/upload-artifact@v1
         with:
-          name: binary
+          name: book_service-${{ env.goos }}-${{ env.goarch }}
           path: dist/book_service-${{ env.goos }}-${{ env.goarch }}
 
   build_image:
@@ -51,7 +51,7 @@ jobs:
       - name: download artifact
         uses: actions/download-artifact@v1
         with:
-          name: binary
+          name: book_service-${{ env.goos }}-${{ env.goarch }}
       - name: build container image
         run: docker build -t book-service:${{ github.sha }} .
       - name: change domain
