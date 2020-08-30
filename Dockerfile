@@ -4,7 +4,7 @@ LABEL maintainer="Masakazu Kobayashi"
 ARG OS=linux
 ARG ARCH=amd64
 
-RUN useradd user
+RUN adduser user
 WORKDIR /home/user
 COPY book_service-${OS}-${ARCH} /home/user
 RUN chmod +x book_service-${OS}-${ARCH}
