@@ -34,11 +34,12 @@ jobs:
         run: |
           mkdir dist
           GOODS=$goos GOARCH=$goarch go build -v -o dist/book_service-$goos-$goarch .
+          ls -l dist
       - name: upload artifact
-        uses: actions/upload-artifact@v1
         env:
           goos: "linux"
           goarch: "amd64"
+        uses: actions/upload-artifact@v1
         with:
           name: binary
           path: dist/book_service-$goos-$goarch
