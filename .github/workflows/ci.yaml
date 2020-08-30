@@ -42,4 +42,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: binary
-          path: dist/book_service-${{ goos }} -${{ goarch }}
+          path: dist/book_service-${{ env.goos }}-${{ env.goarch }}
